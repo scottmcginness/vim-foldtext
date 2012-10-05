@@ -10,6 +10,8 @@ function! CustomFoldText()
         let line = substitute(getline(fs), '\t', spaces, 'g')
     endif
  
+    let foldEnding = strpart(getline(v:foldend), indent(v:foldend), 3)
+    let foldEnding = " ⟨⋯ ⟩ " . foldEnding
     let width = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
     let foldSize = 1 + v:foldend - v:foldstart
     let foldSizeStr = " " . foldSize . " lines "
@@ -19,6 +21,6 @@ function! CustomFoldText()
     let percentageStr = printf("[%.1f%%] ", percentage)
 
     let ending = foldSizeStr . percentageStr . foldLevelStr
-    let expansionString = repeat(" ", width - strwidth(line . ending))
-    return line . expansionString . ending
+    let expansionString = repeat(" ", width - strwidth(line . foldEnding. ending))
+    return line . foldEnding . expansionString . ending
 endfunction
